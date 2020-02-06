@@ -2,7 +2,7 @@ Introduction
 ------------
 
 The mortgage package computes mortgage amortizations.  Generally in real life
-the principle and interest portions that this computes is not your entire
+the principal and interest portions that this computes is not your entire
 mortgage payment.  Other items include escrow payments for taxes and insurance.
 
 .. image:: https://travis-ci.org/jbmohler/mortgage.png?branch=master
@@ -35,7 +35,7 @@ Decimal('1109.54')
 >>> m.total_payout()
 Decimal('199717.20')
 
-Show the principle and interest break-down for the first 6 months.
+Show the principal and interest break-down for the first 6 months.
 
 >>> for index, payment in enumerate(m.monthly_payment_schedule()):
 ...     print(payment)
@@ -47,7 +47,7 @@ Show the principle and interest break-down for the first 6 months.
 (Decimal('617.71'), Decimal('491.83'))
 (Decimal('619.77'), Decimal('489.77'))
 
-We can find the amount of principle paid in the first year.
+We can find the amount of principal paid in the first year.
 
 >>> from itertools import islice
 >>> sum(month[0] for month in islice(m.monthly_payment_schedule(), 12))

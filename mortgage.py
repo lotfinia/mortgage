@@ -63,9 +63,9 @@ class Mortgage:
             if monthly >= balance + interest:
                 yield balance, interest
                 break
-            principle = monthly - interest
-            yield principle, interest
-            balance -= principle
+            principal = monthly - interest
+            yield principal, interest
+            balance -= principal
 
 def print_summary(m):
     print('{0:>25s}:  {1:>12.6f}'.format('Rate', m.rate()))
