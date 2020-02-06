@@ -61,11 +61,12 @@ class Mortgage:
             interest_unrounded = balance * rate * decimal.Decimal(1)/MONTHS_IN_YEAR
             interest = dollar(interest_unrounded, round=decimal.ROUND_HALF_UP)
             if monthly >= balance + interest:
-                yield balance, interest
+                yield balance, interest, balance, 0
                 break
             principal = monthly - interest
-            yield principal, interest
-            balance -= principal
+            ending_balance = balance - principal
+            yield principal, interest, balance, ending_balance
+            balance = ending_balance
 
 def print_summary(m):
     print('{0:>25s}:  {1:>12.6f}'.format('Rate', m.rate()))
@@ -78,12 +79,19 @@ def print_summary(m):
     print('{0:>25s}:  {1:>12.2f}'.format('Annual Payment', m.annual_payment()))
     print('{0:>25s}:  {1:>12.2f}'.format('Total Payout', m.total_payout()))
 
+def print_amortization_table(m):
+    print('{0:>5s}:\t{1:>12s}\t{2:>12s}\t{3:>12s}\t{4:>12s}\t{5:>12s}'.format('Month','Opening','Payment','Principal','Interest','Closing'))
+    for index, payment in enumerate(m.monthly_payment_schedule()):
+    	# print(index + 1, payment[0], payment[1], payment[0] + payment[1],sep="\t\t")
+    	print('{0:>5d}:\t{1:>12,.2f}\t{2:>12,.2f}\t{3:>12,.2f}\t{4:>12,.2f}\t{5:>12,.2f}'.format(index + 1, payment[2], payment[0] + payment[1], payment[0], payment[1], payment[3]))
+
 def main():
     parser = argparse.ArgumentParser(description='Mortgage Amortization Tools')
     parser.add_argument('-i', '--interest', default=6, dest='interest')
     parser.add_argument('-y', '--loan-years', default=30, dest='years')
     parser.add_argument('-m', '--loan-months', default=None, dest='months')
     parser.add_argument('-a', '--amount', default=100000, dest='amount')
+    parser.add_argument('-t', '--table', action='store_true', dest='table')
     args = parser.parse_args()
 
     if args.months:
@@ -92,6 +100,10 @@ def main():
         m = Mortgage(float(args.interest) / 100, float(args.years) * MONTHS_IN_YEAR, args.amount)
 
     print_summary(m)
-
+    
+    if args.table:
+    		print('\n')
+    		print_amortization_table(m)
+    
 if __name__ == '__main__':
     main()
