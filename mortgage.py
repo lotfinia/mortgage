@@ -91,7 +91,7 @@ def main():
     parser.add_argument('-y', '--loan-years', default=30, dest='years')
     parser.add_argument('-m', '--loan-months', default=None, dest='months')
     parser.add_argument('-a', '--amount', default=100000, dest='amount')
-    parser.add_argument('-t', '--table', action='store_true', dest='table')
+    parser.add_argument('-t', '--table', action='store_true', dest='table', help='print a simple amortization table')
     args = parser.parse_args()
 
     if args.months:
