@@ -8,6 +8,7 @@ import decimal
 MONTHS_IN_YEAR = 12
 DOLLAR_QUANTIZE = decimal.Decimal('.01')
 
+
 def dollar(f, round=decimal.ROUND_CEILING):
     """
     This function rounds the passed float to 2 decimal places.
@@ -15,6 +16,7 @@ def dollar(f, round=decimal.ROUND_CEILING):
     if not isinstance(f, decimal.Decimal):
         f = decimal.Decimal(str(f))
     return f.quantize(DOLLAR_QUANTIZE, rounding=round)
+
 
 class Mortgage:
     def __init__(self, interest, months, amount):
@@ -68,6 +70,7 @@ class Mortgage:
             yield principal, interest, balance, ending_balance
             balance = ending_balance
 
+
 def print_summary(m):
     print('{0:>25s}:  {1:>12.6f}'.format('Rate', m.rate()))
     print('{0:>25s}:  {1:>12.6f}'.format('Month Growth', m.month_growth()))
@@ -79,11 +82,13 @@ def print_summary(m):
     print('{0:>25s}:  {1:>12.2f}'.format('Annual Payment', m.annual_payment()))
     print('{0:>25s}:  {1:>12.2f}'.format('Total Payout', m.total_payout()))
 
+
 def print_amortization_table(m):
-    print('{0:>5s}:\t{1:>12s}\t{2:>12s}\t{3:>12s}\t{4:>12s}\t{5:>12s}'.format('Month','Opening','Payment','Principal','Interest','Closing'))
+    print('{0:>5s}:\t{1:>12s}\t{2:>12s}\t{3:>12s}\t{4:>12s}\t{5:>12s}'.format('Month', 'Opening', 'Payment', 'Principal', 'Interest', 'Closing'))
     for index, payment in enumerate(m.monthly_payment_schedule()):
     	# print(index + 1, payment[0], payment[1], payment[0] + payment[1],sep="\t\t")
     	print('{0:>5d}:\t{1:>12,.2f}\t{2:>12,.2f}\t{3:>12,.2f}\t{4:>12,.2f}\t{5:>12,.2f}'.format(index + 1, payment[2], payment[0] + payment[1], payment[0], payment[1], payment[3]))
+
 
 def main():
     parser = argparse.ArgumentParser(description='Mortgage Amortization Tools')
@@ -102,8 +107,9 @@ def main():
     print_summary(m)
     
     if args.table:
-    		print('\n')
-    		print_amortization_table(m)
-    
+        print('\n')
+        print_amortization_table(m)
+        
+        
 if __name__ == '__main__':
     main()
